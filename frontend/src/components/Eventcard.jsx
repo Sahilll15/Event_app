@@ -33,7 +33,7 @@ const EventCard = ({ event,loggedInUser }) => {
   const handleUpdateEvent = () => {
     updateEvent(event._id,editedEvent);
     setIsEditModalOpen(false);
-    
+    window.location.reload()
   };
 
   return (

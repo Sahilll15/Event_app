@@ -1,9 +1,8 @@
-const mongoose = require('mongoose')
-const Event = require('../models/eventModel')
+const mongoose = require("mongoose");
+const Event = require("../models/eventModel");
 
 module.exports.addEvent = async (req, res, next) => {
     const { title, description, location, time, pricing, organizer } = req.body;
-
 
     try {
         const event = await Event.create({
@@ -38,27 +37,22 @@ module.exports.deleteEvent = async (req, res, next) => {
 
 module.exports.getEvents = async (req, res, next) => {
     try {
-        const events = await Event.find().populate('organizer', 'name email');
-        res.status(200).json({ message: "Events fetched successfully", events })
-
+        const events = await Event.find().populate("organizer", "name email");
+        res.status(200).json({ message: "Events fetched successfully", events });
     } catch (error) {
-        res.status(400).json({ message: "Events fetching failed", error })
-
+        res.status(400).json({ message: "Events fetching failed", error });
     }
-}
+};
 
 module.exports.getOneEvents = async (req, res, next) => {
     const id = req.params.id;
     try {
-
-        const event = await Event.findById(id).populate('organizer', 'name email');
-        res.status(200).json({ message: "Events fetched successfully", event })
-
+        const event = await Event.findById(id).populate("organizer", "name email");
+        res.status(200).json({ message: "Events fetched successfully", event });
     } catch (error) {
-        res.status(400).json({ message: "Events fetching failed", error })
-
+        res.status(400).json({ message: "Events fetching failed", error });
     }
-}
+};
 
 module.exports.getUserEvents = async (req, res, next) => {
     const userId = req.params.userId;
@@ -69,7 +63,7 @@ module.exports.getUserEvents = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve events" });
     }
-}
+};
 
 module.exports.updateEvents = async (req, res, next) => {
     const id = req.params.id;
@@ -79,7 +73,7 @@ module.exports.updateEvents = async (req, res, next) => {
         if (!event) {
             return res.status(400).json({ mssg: "Event does not exist" });
         }
-        await Event.findByIdAndUpdate(id, {
+        const newEvent = await Event.findByIdAndUpdate(id, {
             title,
             description,
             location,
@@ -87,9 +81,21 @@ module.exports.updateEvents = async (req, res, next) => {
             pricing,
             organizer,
         });
-        res.status(200).json({ message: "Event updated successfully", event });
+        res.status(200).json({ message: "Event updated successfully", newEvent });
     } catch (error) {
         res.status(400).json({ message: "Event updation failed", error });
-
     }
-}
+};
+
+
+module.exports.searchEvents = async (req, res) => {
+    const { search } = req.query;
+
+    try {
+        const events = await Event.find({ title: { $regex: search, $options: 'i' } });
+        res.json(events);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Failed to fetch events' });
+    }
+};
