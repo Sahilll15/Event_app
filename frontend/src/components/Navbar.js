@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Flex, Spacer, Link, Button, useDisclosure, IconButton, Collapse } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon, } from '@chakra-ui/icons';
+import { SearchIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
+    const [search, setSearch] = useState('');
     const { isOpen, onToggle } = useDisclosure();
     let isLoggedIn = localStorage.getItem('auth-token')
+
     const handleLogout = () => {
+
         localStorage.removeItem('auth-token')
         localStorage.removeItem('user_id')
         window.location.href = '/login'
@@ -18,6 +23,7 @@ const Navbar = () => {
                     <Link marginLeft={3} href="/" fontSize="xl" fontWeight="bold" color="white">Home</Link>
 
                     <Link marginLeft={3} href="/addevent" fontSize="xl" fontWeight="bold" color="white">Add Events</Link>
+                    <Link marginLeft={3} href="/myevents" fontSize="xl" fontWeight="bold" color="white">My Events</Link>
 
 
                 </Box>
@@ -33,6 +39,8 @@ const Navbar = () => {
                         Register
                     </Link>
                 )}
+
+
 
 
 

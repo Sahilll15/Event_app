@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import PrivateRoutes from './utils/PrivateRoutes';
 import AddEvent from './pages/AddEvent';
 import Navbar from './components/Navbar';
+import Myevents from './pages/Myevents';
 
 const App = () => {
   return (
@@ -19,6 +20,8 @@ const App = () => {
             <Route element={<PrivateRoutes />}>
               <Route element={<Home />} path="/" exact />
               <Route element={<AddEvent />} path="/addevent" exact />
+
+              <Route element={<Myevents />} path="/myevents" exact />
             </Route>
             <Route element={<Login />} path="/login" />
 
